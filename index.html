@@ -1,33 +1,209 @@
-<!--
-    Title: CTY portfolio
-    Hero Image
-    Portfolio
-    Name
-    Pictures    
--->
-
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>My Portfolio</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <div id="background-div">
-            <video width="320" height="240" autoplay loop muted>
-                <source type="video/mp4" src="https://github.com/vivanpoddar/Portfolio/raw/main/background-vid.mp4"</source>
-            </video>
-            <ul class="navbar">
-                <li class="title">Vivan Poddar - Portfolio</li>
-                <a href="https://github.com/vivanpoddar/QuickSourceServer"><li class="nav-element">QuickSource</li></a>
-                <a href="https://github.com/vivanpoddar/PIISubstituter"><li class="nav-element">PIISubstituter</li></a>
-                <a href="https://github.com/vivanpoddar/Safe-extension"><li class="nav-element">Safe Extension</li></a>
-                <a href="https://github.com/vivanpoddar/CTY-data-structures-and-algorithms"><li class="nav-element">CTY Data Structures and Algorithms</li></a>
-            </ul>
-        </div>  
-    </body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vivan Poddar | Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;700;800&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="noise-layer" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href="#top">VP</a>
+      <nav>
+        <a href="#projects">Projects</a>
+        <a href="#extracurricular">Initiatives</a>
+        <a href="https://github.com/vivanpoddar" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/vivanpoddar/" target="_blank" rel="noreferrer">Linkedin</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero section reveal" id="home">
+        <video class="hero-video" autoplay loop muted playsinline>
+          <source src="background-vid.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-gradient" aria-hidden="true"></div>
+        <div class="orb orbit-one" aria-hidden="true"></div>
+        <div class="orb orbit-two" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow">Vivan Poddar</p>
+          <h1>
+            Building products, communities,
+            <span>and high-energy ideas.</span>
+          </h1>
+          <p class="hero-copy">
+            Student engineer focused on AI systems, product execution, and community-first
+            technology. I lead hackathons, ship real apps, and build projects that have measurable
+            impact in schools and local communities.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">Explore Work</a>
+            <a class="btn btn-secondary" href="#extracurricular">See Initiatives</a>
+          </div>
+          <div class="signal-grid">
+            <article>
+              <p class="signal-label">shady.Hacks</p>
+              <p class="signal-value"><span class="counter" data-target="350">0</span>+ participants</p>
+            </article>
+            <article>
+              <p class="signal-label">Silicon League</p>
+              <p class="signal-value"><span class="counter" data-target="14">0</span> member hackathons</p>
+            </article>
+            <article>
+              <p class="signal-label">Community Library</p>
+              <p class="signal-value"><span class="counter" data-target="5000">0</span>+ books digitized</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section projects reveal" id="projects">
+        <div class="section-head">
+          <p class="eyebrow">Projects</p>
+          <h2>Selected repos from <span>@vivanpoddar</span></h2>
+        </div>
+        <div class="project-grid">
+          <article class="project-card glow-card">
+            <h3>paradigms</h3>
+            <p>
+              Learning platform repository focused on accessible academic support and student-first
+              product workflows.
+            </p>
+            <div class="tags"><span>Education</span><span>Product</span><span>Web</span></div>
+            <a href="https://github.com/vivanpoddar/paradigms" target="_blank" rel="noreferrer">Open repo</a>
+          </article>
+
+          <article class="project-card glow-card">
+            <h3>silicon</h3>
+            <p>
+              Build infrastructure and code assets supporting Silicon League hackathon programming.
+            </p>
+            <div class="tags"><span>Community</span><span>TypeScript</span><span>Ops</span></div>
+            <a href="https://github.com/vivanpoddar/silicon" target="_blank" rel="noreferrer">Open repo</a>
+          </article>
+
+          <article class="project-card glow-card">
+            <h3>newrvapcatalog</h3>
+            <p>
+              Catalog-oriented repository with data organization and access patterns for streamlined
+              browsing and management.
+            </p>
+            <div class="tags"><span>Catalog</span><span>Data</span><span>Web</span></div>
+            <a href="https://github.com/vivanpoddar/newrvapcatalog" target="_blank" rel="noreferrer">Open repo</a>
+          </article>
+
+          <article class="project-card glow-card">
+            <h3>PIISubstituter</h3>
+            <p>
+              Privacy-focused entity substitution engine designed to protect sensitive text data while
+              preserving utility.
+            </p>
+            <div class="tags"><span>Python</span><span>NLP</span><span>Privacy</span></div>
+            <a href="https://github.com/vivanpoddar/PIISubstituter" target="_blank" rel="noreferrer">Open repo</a>
+          </article>
+
+          <article class="project-card glow-card">
+            <h3>pitched</h3>
+            <p>
+              Real-time pitch feedback coach that helps users practice delivery, refine messaging,
+              and improve confidence.
+            </p>
+            <div class="tags"><span>Realtime</span><span>Coaching</span><span>Product</span></div>
+            <a href="https://github.com/pitched26/pitched" target="_blank" rel="noreferrer">Open repo</a>
+          </article>
+
+          <article class="project-card glow-card">
+            <h3>Quairlity</h3>
+            <p>
+              Low-cost air quality platform combining sensor data and app workflows for practical,
+              accessible health and safety insights.
+            </p>
+            <div class="tags"><span>IoT</span><span>Health</span><span>AI</span></div>
+            <a href="https://github.com/vivanpoddar/Quairlity" target="_blank" rel="noreferrer">Open repo</a>
+          </article>
+        </div>
+      </section>
+
+      <section class="section beyond reveal" id="extracurricular">
+        <div class="section-head">
+          <h2>My initiatives</h2>
+        </div>
+        <div class="activity-list">
+          <article class="activity-row">
+            <h3>shady.Hacks</h3>
+            <p>Founded Pittsburgh's first high school hackathon; raised sponsorship funding and helped connect students to internship pathways.</p>
+          </article>
+          <article class="activity-row">
+            <h3>Silicon League</h3>
+            <p>Co-founded and scaled a 501(c)(3) network to 14 member hackathons across the US and India, expanding access for 2,000+ students.</p>
+          </article>
+          <article class="activity-row">
+            <h3>Ramakrishna Vedanta Ashrama Library</h3>
+            <p>Led a five-student volunteer team to digitize and organize 5,000+ books into a searchable catalog used by the local community.</p>
+          </article>
+          <article class="activity-row">
+            <h3>Doclens.ai Internship</h3>
+            <p>Built a PII-anonymization system, then returned as a paid intern to redesign ClaimLens UI and contribute to patent-backed product work.</p>
+          </article>
+          <article class="activity-row">
+            <h3>University of Utah MEDAL Lab Research</h3>
+            <p>Selected for EDA research internship developing reinforcement-learning methods for automated analog circuit design.</p>
+          </article>
+          <article class="activity-row">
+            <h3>Paradigms</h3>
+            <p>Built a student support platform to provide accessible homework and exam-prep help, growing to 200+ users across schools.</p>
+          </article>
+          <article class="activity-row">
+            <h3>CardioGuardian</h3>
+            <p>Developed an early screening system for sudden cardiac arrest risk using smartwatch ECG upscaling and transformer-based anomaly detection.</p>
+          </article>
+          <article class="activity-row">
+            <h3>Competitive Programming Participation</h3>
+            <p>Active in algorithmic problem-solving through school competitive programming and independent practice on platforms like Codeforces and USACO. USACO Gold rank.</p>
+          </article>
+          <article class="activity-row">
+            <h3>Tennis</h3>
+            <p>Competitive player since age 8 with a career-high Pennsylvania ranking of 27th and four years on varsity.</p>
+          </article>
+          <article class="activity-row">
+            <h3>Piano</h3>
+            <p>Recognized as a Young Artist by the Western Pennsylvania Steinway Society; performed at Carnegie Hall and Mozarthaus Vienna.</p>
+          </article>
+          <article class="activity-row">
+            <h3>PC Building Business</h3>
+            <p>Built and sold 18 custom PCs through online marketplaces, combining hardware expertise with customer service and entrepreneurship.</p>
+          </article>
+          <article class="activity-row">
+            <h3>SSA CS Department Associate</h3>
+            <p>Redesigned the school CS department website, supported curriculum/tutoring initiatives, and launched a competitive programming club.</p>
+          </article>
+          <article class="activity-row">
+            <h3>Family-Centered Air Quality Work</h3>
+            <p>Designed a low-cost app-plus-sensor system for home air quality and deployed it in family and community environments.</p>
+          </article>
+          <article class="activity-row">
+            <h3>Congressional App Challenge - 1st Place</h3>
+            <p>Presented Quairlity to officials at the US Capitol.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer reveal">
+      <p>Designed and built by Vivan Poddar.</p>
+      <div>
+        <a href="https://github.com/vivanpoddar" target="_blank" rel="noreferrer">GitHub</a>
+        <a href="#top">Back to top</a>
+      </div>
+    </footer>
+
     <script src="main.js"></script>
+  </body>
 </html>
