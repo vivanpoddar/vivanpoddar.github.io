@@ -7,18 +7,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;700;800&family=Syne:wght@600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="noise-layer" aria-hidden="true"></div>
     <header class="site-header">
-      <a class="brand" href="#top">VP</a>
+      <a class="brand" href="#top">Vivan Poddar</a>
       <nav>
-        <a href="#projects">Projects</a>
         <a href="#extracurricular">Initiatives</a>
+        <a href="#projects">Projects</a>
         <a href="https://github.com/vivanpoddar" target="_blank" rel="noreferrer">GitHub</a>
         <a href="https://www.linkedin.com/in/vivanpoddar/" target="_blank" rel="noreferrer">Linkedin</a>
       </nav>
@@ -26,43 +25,111 @@
 
     <main id="top">
       <section class="hero section reveal" id="home">
-        <video class="hero-video" autoplay loop muted playsinline>
-          <source src="background-vid.mp4" type="video/mp4" />
-        </video>
-        <div class="hero-gradient" aria-hidden="true"></div>
-        <div class="orb orbit-one" aria-hidden="true"></div>
-        <div class="orb orbit-two" aria-hidden="true"></div>
-        <div class="hero-content">
-          <p class="eyebrow">Vivan Poddar</p>
-          <h1>
-            Building products, communities,
-            <span>and high-energy ideas.</span>
-          </h1>
-          <p class="hero-copy">
-            Student engineer focused on AI systems, product execution, and community-first
-            technology. I lead hackathons, ship real apps, and build projects that have measurable
-            impact in schools and local communities.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#projects">Explore Work</a>
-            <a class="btn btn-secondary" href="#extracurricular">See Initiatives</a>
+        <div class="hero-layout">
+          <div class="hero-content">
+            <h1>
+              Developing products              <span>and high-energy research.</span>
+            </h1>
+            <p class="hero-copy">
+              Student engineer focused on AI systems, product execution, and community-first
+              technology. I lead hackathons, ship real apps, and build projects that have measurable
+              impact in research and for STEM education.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#extracurricular">See Initiatives</a>
+              <a class="btn btn-secondary" href="#projects">Explore Work</a>
+            </div>
           </div>
-          <div class="signal-grid">
-            <article>
-              <p class="signal-label">shady.Hacks</p>
-              <p class="signal-value"><span class="counter" data-target="350">0</span>+ participants</p>
-            </article>
-            <article>
-              <p class="signal-label">Silicon League</p>
-              <p class="signal-value"><span class="counter" data-target="14">0</span> member hackathons</p>
-            </article>
-            <article>
-              <p class="signal-label">Community Library</p>
-              <p class="signal-value"><span class="counter" data-target="5000">0</span>+ books digitized</p>
-            </article>
-          </div>
+          <aside class="portrait-panel" aria-label="Portrait placeholder">
+            <div class="portrait-frame">
+              <img src="Vivan.png" alt="Portrait of Vivan Poddar" class="portrait-image" />
+            </div>
+          </aside>
         </div>
       </section>
+
+      <!-- <section class="section beyond reveal" id="extracurricular">
+        <div class="section-head">
+          <p class="eyebrow">Initiatives</p>
+          <h2>Research, products, and recognition</h2>
+        </div>
+        <div class="activity-list">
+          <article class="activity-row">
+            <h3>Analog Design Research</h3>
+            <p>
+              Conducted research on analog circuit design automation using multi-objective
+              reinforcement learning (MO-RL), contributing to the development of ORACLE, an
+              RL-based optimization framework for analog and mixed-signal circuits forthcoming in
+              IEEE/ACM ICCAD 2026 and at ISEF. Implemented a multi-objective vector-based reward
+              to replace traditional scalar reward approaches, enabling learning of Pareto-optimal
+              trade-offs across competing design objectives in circuit design.
+            </p>
+          </article>
+          <article class="activity-row">
+            <h3>Doclens.ai Internship</h3>
+            <p>
+              Held a paid internship position with stipend over two years. Developed an anonymizer
+              for redaction of personally identifiable information (PII) in legal documents for
+              further processing with third-party AI tools, then returned the second year to
+              overhaul the UI for the ClaimLens product. Co-inventor on two filed patents related
+              to document processing.
+            </p>
+          </article>
+          <article class="activity-row">
+            <h3>Publications</h3>
+            <p>
+              Published and accepted work includes "ORACLE: A Multi-Objective Reinforcement
+              Learning-Based Analog Circuit Design Optimizer with Large Language Models-Guided
+              Exploration," accepted to IEEE/ACM ICCAD, and "High-Throughput Detection of Risk
+              Factors to Sudden Cardiac Arrest in Youth Athletes: A Smartwatch-Based Screening
+              Platform," on arXiv and cited by two.
+            </p>
+          </article>
+          <article class="activity-row">
+            <h3>Patents</h3>
+            <p>
+              Patent work includes US-20250181617-A1, "Generating Response to Query with Text
+              Extract for Basis from Unstructured Data Using AI Models," and "System and Method for
+              Automated Vulnerability Feature Extraction and Vulnerability Level Prediction from
+              Unstructured Data."
+            </p>
+          </article>
+          <article class="activity-row">
+            <h3>Awards</h3>
+            <p>
+              Awards include ISEF Finalist, USA Computing Olympiad Gold, two-time National
+              Medalist in Science Olympiad, 80+ State and Invitational Science Olympiad medals, and
+              two-time first place in CS/Math at the Pittsburgh Regional Science and Engineering
+              Fair (PRSEF).
+            </p>
+          </article>
+          <article class="activity-row">
+            <h3>Built Work</h3>
+            <p>
+              Built work includes ORACLE, an autonomous analog circuit design system that
+              outperforms baseline methods across key design metrics; a smartwatch-based platform
+              for screening high school athletes for sudden cardiac arrest risk markers, validated
+              on 30 human subjects; <a href="https://paradigms.cc" target="_blank" rel="noreferrer">Paradigms</a>,
+              a PDF RAG app for step-by-step academic support with the Gemini Live API and 800+
+              users across multiple high schools; <a href="https://joinsilicon.org" target="_blank" rel="noreferrer">Silicon League</a>,
+              a hackathon tournament supporting 3,000+ members across 20 organizations with
+              $12,000+ in funding; and the
+              <a href="https://doclens.ai/liability-claims/" target="_blank" rel="noreferrer">ClaimLens PII Anonymizer</a>,
+              an enterprise tool for redacting PII in legal documents before LLM processing.
+            </p>
+          </article>
+          <article class="activity-row">
+            <h3>Most Significant Work</h3>
+            <p>
+              ORACLE is an RL framework that automates analog circuit design by simultaneously
+              optimizing competing specifications using multi-objective optimization and
+              LLM-guided exploration. It learns trade-off-aware policies that generalize across
+              unseen design targets, significantly improving sample efficiency, runtime, and
+              solution quality compared to prior methods, and was accepted to ICCAD.
+            </p>
+          </article>
+        </div>
+      </section> -->
 
       <section class="section projects reveal" id="projects">
         <div class="section-head">
@@ -130,74 +197,9 @@
           </article>
         </div>
       </section>
-
-      <section class="section beyond reveal" id="extracurricular">
-        <div class="section-head">
-          <h2>My initiatives</h2>
-        </div>
-        <div class="activity-list">
-          <article class="activity-row">
-            <h3>shady.Hacks</h3>
-            <p>Founded Pittsburgh's first high school hackathon; raised sponsorship funding and helped connect students to internship pathways.</p>
-          </article>
-          <article class="activity-row">
-            <h3>Silicon League</h3>
-            <p>Co-founded and scaled a 501(c)(3) network to 14 member hackathons across the US and India, expanding access for 2,000+ students.</p>
-          </article>
-          <article class="activity-row">
-            <h3>Ramakrishna Vedanta Ashrama Library</h3>
-            <p>Led a five-student volunteer team to digitize and organize 5,000+ books into a searchable catalog used by the local community.</p>
-          </article>
-          <article class="activity-row">
-            <h3>Doclens.ai Internship</h3>
-            <p>Built a PII-anonymization system, then returned as a paid intern to redesign ClaimLens UI and contribute to patent-backed product work.</p>
-          </article>
-          <article class="activity-row">
-            <h3>University of Utah MEDAL Lab Research</h3>
-            <p>Selected for EDA research internship developing reinforcement-learning methods for automated analog circuit design.</p>
-          </article>
-          <article class="activity-row">
-            <h3>Paradigms</h3>
-            <p>Built a student support platform to provide accessible homework and exam-prep help, growing to 200+ users across schools.</p>
-          </article>
-          <article class="activity-row">
-            <h3>CardioGuardian</h3>
-            <p>Developed an early screening system for sudden cardiac arrest risk using smartwatch ECG upscaling and transformer-based anomaly detection.</p>
-          </article>
-          <article class="activity-row">
-            <h3>Competitive Programming Participation</h3>
-            <p>Active in algorithmic problem-solving through school competitive programming and independent practice on platforms like Codeforces and USACO. USACO Gold rank.</p>
-          </article>
-          <article class="activity-row">
-            <h3>Tennis</h3>
-            <p>Competitive player since age 8 with a career-high Pennsylvania ranking of 27th and four years on varsity.</p>
-          </article>
-          <article class="activity-row">
-            <h3>Piano</h3>
-            <p>Recognized as a Young Artist by the Western Pennsylvania Steinway Society; performed at Carnegie Hall and Mozarthaus Vienna.</p>
-          </article>
-          <article class="activity-row">
-            <h3>PC Building Business</h3>
-            <p>Built and sold 18 custom PCs through online marketplaces, combining hardware expertise with customer service and entrepreneurship.</p>
-          </article>
-          <article class="activity-row">
-            <h3>SSA CS Department Associate</h3>
-            <p>Redesigned the school CS department website, supported curriculum/tutoring initiatives, and launched a competitive programming club.</p>
-          </article>
-          <article class="activity-row">
-            <h3>Family-Centered Air Quality Work</h3>
-            <p>Designed a low-cost app-plus-sensor system for home air quality and deployed it in family and community environments.</p>
-          </article>
-          <article class="activity-row">
-            <h3>Congressional App Challenge - 1st Place</h3>
-            <p>Presented Quairlity to officials at the US Capitol.</p>
-          </article>
-        </div>
-      </section>
     </main>
 
     <footer class="site-footer reveal">
-      <p>Designed and built by Vivan Poddar.</p>
       <div>
         <a href="https://github.com/vivanpoddar" target="_blank" rel="noreferrer">GitHub</a>
         <a href="#top">Back to top</a>
