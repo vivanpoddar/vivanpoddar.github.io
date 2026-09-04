@@ -3,206 +3,99 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vivan Poddar | Portfolio</title>
+    <title>Vivan Poddar</title>
+    <meta
+      name="description"
+      content="CS @ UC Berkeley. Analog circuit design automation research at Utah MEDAL, ORACLE (ICCAD 2026), Paradigms, Silicon League."
+    />
+    <meta property="og:title" content="Vivan Poddar" />
+    <meta property="og:description" content="CS @ UC Berkeley. Circuit design automation research, products, and hackathons." />
+    <meta property="og:type" content="website" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="site-header">
-      <a class="brand" href="#top">Vivan Poddar</a>
-      <nav>
-        <!-- <a href="#extracurricular">Initiatives</a>
-        <a href="#projects">Projects</a> -->
-        <a href="https://github.com/vivanpoddar" target="_blank" rel="noreferrer">GitHub</a>
-        <a href="https://www.linkedin.com/in/vivanpoddar/" target="_blank" rel="noreferrer">Linkedin</a>
-      </nav>
-    </header>
+    <main>
+      <article class="page">
+        <header class="links">
+          <h2 class="latex-section">Links</h2>
+          <nav>
+            <a class="latex-link" href="https://github.com/vivanpoddar" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <span class="sep">·</span>
+            <a class="latex-link" href="https://www.linkedin.com/in/vivanpoddar/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </nav>
+        </header>
 
-    <main id="top">
-      <section class="hero section" id="home">
-        <div class="hero-layout">
-          <div class="hero-content">
-            <h1>
-              Developing products and meaningful research.
-            </h1>
-            <p class="hero-copy">
-              Researcher at the University of Utah MicroElectronics Design Automation Lab (MEDAL). Pre-frosh studying CS at UC Berkeley. I'm focused on anything engineering, circuit design, and startups. I also lead hackathons and build projects that have measurable
-              impact for STEM education. <br />
-              <br />
-            </p>
-            <div class="hero-actions">
-            </div>
-          </div>
-          <aside class="portrait-panel" aria-label="Portrait placeholder">
-            <div class="portrait-frame">
-              <img src="Vivan.png" alt="Portrait of Vivan Poddar" class="portrait-image" />
-            </div>
-          </aside>
+        <div class="masthead">
+          <h1>Vivan Poddar</h1>
+          <p class="affiliation">
+            <em>Computer Science, UC Berkeley
+          </p>
         </div>
-      </section>
 
-      <!-- <section class="section beyond" id="extracurricular">
-        <div class="section-head">
-          <p class="eyebrow">Initiatives</p>
-          <h2>Research, products, and recognition</h2>
+        <div class="bio">
+          <p>
+            Current freshman @ Berkeley. I spend most of my time teaching machines to design analog circuits.
+            Turns out the hard part isn't the circuits, it's getting a model to reason about
+            trade-offs instead of chasing a single number.
+          </p>
+          <p>
+            <span class="lead">Right now</span> I'm a researcher at the University of Utah's
+            MicroElectronics Design Automation Lab (MEDAL), where I built ORACLE: a multi-objective
+            reinforcement learning optimizer for analog and mixed-signal circuits with LLM-guided
+            exploration. It swaps the usual scalar reward for a vector one, so the policy sees every
+            spec at once and learns the Pareto front instead of a single point on it, and it
+            generalizes to design targets it has never seen. Forthcoming at IEEE/ACM ICCAD 2026; it
+            was also my ISEF finalist project.
+          </p>
+          <p>
+            <span class="lead">Before this:</span> two years at
+            <a class="latex-link" href="https://doclens.ai/liability-claims/" target="_blank" rel="noopener noreferrer">Doclens.ai</a>,
+            first building a PII anonymizer so legal documents could be safely handed to third-party
+            AI tools, then coming back to overhaul the ClaimLens UI. Co-inventor on two filed patents
+            from that work, including US-20250181617-A1. I also built
+            <a class="latex-link" href="https://paradigms.cc" target="_blank" rel="noopener noreferrer">Paradigms</a>,
+            a PDF RAG app for step-by-step academic support on the Gemini Live API, now used by 800+
+            students across several high schools, and I run
+            <a class="latex-link" href="https://joinsilicon.org" target="_blank" rel="noopener noreferrer">Silicon League</a>,
+            a hackathon tournament with 3,000+ members across 20 organizations and $12,000+ in
+            funding. Somewhere in there I put together a smartwatch-based screening platform for
+            sudden cardiac arrest risk in youth athletes, validated it on 30 people, and put it on
+            arXiv.
+          </p>
+          <p>
+            <span class="lead">Along the way:</span> ISEF Finalist, USA Computing Olympiad Gold,
+            two-time National Medalist in Science Olympiad (and 80-something state and invitational
+            medals I've stopped counting), and two first places in CS/Math at the Pittsburgh
+            Regional Science and Engineering Fair.
+          </p>
+          <p>
+            <span class="lead">Outside of that</span> I'm into anything engineering, circuit
+            design, and startups, and I like building things for STEM education that have an
+            impact you can actually measure.
+          </p>
+          <p>Talk to me about any of it, anytime.</p>
         </div>
-        <div class="activity-list">
-          <article class="activity-row">
-            <h3>Analog Design Research</h3>
-            <p>
-              Conducted research on analog circuit design automation using multi-objective
-              reinforcement learning (MO-RL), contributing to the development of ORACLE, an
-              RL-based optimization framework for analog and mixed-signal circuits forthcoming in
-              IEEE/ACM ICCAD 2026 and at ISEF. Implemented a multi-objective vector-based reward
-              to replace traditional scalar reward approaches, enabling learning of Pareto-optimal
-              trade-offs across competing design objectives in circuit design.
-            </p>
-          </article>
-          <article class="activity-row">
-            <h3>Doclens.ai Internship</h3>
-            <p>
-              Held a paid internship position with stipend over two years. Developed an anonymizer
-              for redaction of personally identifiable information (PII) in legal documents for
-              further processing with third-party AI tools, then returned the second year to
-              overhaul the UI for the ClaimLens product. Co-inventor on two filed patents related
-              to document processing.
-            </p>
-          </article>
-          <article class="activity-row">
-            <h3>Publications</h3>
-            <p>
-              Published and accepted work includes "ORACLE: A Multi-Objective Reinforcement
-              Learning-Based Analog Circuit Design Optimizer with Large Language Models-Guided
-              Exploration," accepted to IEEE/ACM ICCAD, and "High-Throughput Detection of Risk
-              Factors to Sudden Cardiac Arrest in Youth Athletes: A Smartwatch-Based Screening
-              Platform," on arXiv and cited by two.
-            </p>
-          </article>
-          <article class="activity-row">
-            <h3>Patents</h3>
-            <p>
-              Patent work includes US-20250181617-A1, "Generating Response to Query with Text
-              Extract for Basis from Unstructured Data Using AI Models," and "System and Method for
-              Automated Vulnerability Feature Extraction and Vulnerability Level Prediction from
-              Unstructured Data."
-            </p>
-          </article>
-          <article class="activity-row">
-            <h3>Awards</h3>
-            <p>
-              Awards include ISEF Finalist, USA Computing Olympiad Gold, two-time National
-              Medalist in Science Olympiad, 80+ State and Invitational Science Olympiad medals, and
-              two-time first place in CS/Math at the Pittsburgh Regional Science and Engineering
-              Fair (PRSEF).
-            </p>
-          </article>
-          <article class="activity-row">
-            <h3>Built Work</h3>
-            <p>
-              Built work includes ORACLE, an autonomous analog circuit design system that
-              outperforms baseline methods across key design metrics; a smartwatch-based platform
-              for screening high school athletes for sudden cardiac arrest risk markers, validated
-              on 30 human subjects; <a href="https://paradigms.cc" target="_blank" rel="noreferrer">Paradigms</a>,
-              a PDF RAG app for step-by-step academic support with the Gemini Live API and 800+
-              users across multiple high schools; <a href="https://joinsilicon.org" target="_blank" rel="noreferrer">Silicon League</a>,
-              a hackathon tournament supporting 3,000+ members across 20 organizations with
-              $12,000+ in funding; and the
-              <a href="https://doclens.ai/liability-claims/" target="_blank" rel="noreferrer">ClaimLens PII Anonymizer</a>,
-              an enterprise tool for redacting PII in legal documents before LLM processing.
-            </p>
-          </article>
-          <article class="activity-row">
-            <h3>Most Significant Work</h3>
-            <p>
-              ORACLE is an RL framework that automates analog circuit design by simultaneously
-              optimizing competing specifications using multi-objective optimization and
-              LLM-guided exploration. It learns trade-off-aware policies that generalize across
-              unseen design targets, significantly improving sample efficiency, runtime, and
-              solution quality compared to prior methods, and was accepted to ICCAD.
-            </p>
-          </article>
-        </div>
-      </section> -->
 
-      <!-- <section class="section projects" id="projects">
-        <div class="section-head">
-          <h2>Projects</h2>
-        </div>
-        <div class="project-grid">
-          <article class="project-card glow-card">
-            <h3>paradigms</h3>
-            <p>
-              Learning platform repository focused on accessible academic support and student-first
-              product workflows.
-            </p>
-            <div class="tags"><span>Education</span><span>Product</span><span>Web</span></div>
-            <a href="https://github.com/vivanpoddar/paradigms" target="_blank" rel="noreferrer">Open repo</a>
-          </article>
-
-          <article class="project-card glow-card">
-            <h3>silicon</h3>
-            <p>
-              Build infrastructure and code assets supporting Silicon League hackathon programming.
-            </p>
-            <div class="tags"><span>Community</span><span>TypeScript</span><span>Ops</span></div>
-            <a href="https://github.com/vivanpoddar/silicon" target="_blank" rel="noreferrer">Open repo</a>
-          </article>
-
-          <article class="project-card glow-card">
-            <h3>newrvapcatalog</h3>
-            <p>
-              Catalog-oriented repository with data organization and access patterns for streamlined
-              browsing and management.
-            </p>
-            <div class="tags"><span>Catalog</span><span>Data</span><span>Web</span></div>
-            <a href="https://github.com/vivanpoddar/newrvapcatalog" target="_blank" rel="noreferrer">Open repo</a>
-          </article>
-
-          <article class="project-card glow-card">
-            <h3>PIISubstituter</h3>
-            <p>
-              Privacy-focused entity substitution engine designed to protect sensitive text data while
-              preserving utility.
-            </p>
-            <div class="tags"><span>Python</span><span>NLP</span><span>Privacy</span></div>
-            <a href="https://github.com/vivanpoddar/PIISubstituter" target="_blank" rel="noreferrer">Open repo</a>
-          </article>
-
-          <article class="project-card glow-card">
-            <h3>pitched</h3>
-            <p>
-              Real-time pitch feedback coach that helps users practice delivery, refine messaging,
-              and improve confidence.
-            </p>
-            <div class="tags"><span>Realtime</span><span>Coaching</span><span>Product</span></div>
-            <a href="https://github.com/pitched26/pitched" target="_blank" rel="noreferrer">Open repo</a>
-          </article>
-
-          <article class="project-card glow-card">
-            <h3>Quairlity</h3>
-            <p>
-              Low-cost air quality platform combining sensor data and app workflows for practical,
-              accessible health and safety insights.
-            </p>
-            <div class="tags"><span>IoT</span><span>Health</span><span>AI</span></div>
-            <a href="https://github.com/vivanpoddar/Quairlity" target="_blank" rel="noreferrer">Open repo</a>
-          </article>
-        </div>
-      </section>
-    </main> -->
-
-    <footer class="site-footer">
-      <div>
-        <a href="https://github.com/vivanpoddar" target="_blank" rel="noreferrer">GitHub</a>
-        <a href="#top">Back to top</a>
-      </div>
-    </footer>
-
-    <script src="main.js"></script>
+        <footer class="more">
+          <h2 class="latex-section">Work</h2>
+          <nav>
+            <a class="latex-link" href="https://paradigms.cc" target="_blank" rel="noopener noreferrer">Paradigms</a>
+            <span class="sep">·</span>
+            <a class="latex-link" href="https://joinsilicon.org" target="_blank" rel="noopener noreferrer">Silicon League</a>
+            <span class="sep">·</span>
+            <a class="latex-link" href="https://doclens.ai/liability-claims/" target="_blank" rel="noopener noreferrer">ClaimLens</a>
+            <span class="sep">·</span>
+            <a class="latex-link" href="https://github.com/vivanpoddar" target="_blank" rel="noopener noreferrer">Code</a>
+          </nav>
+          <p class="colophon">~ Old Standard TT. Last revised August 2026.</p>
+        </footer>
+      </article>
+    </main>
   </body>
 </html>
