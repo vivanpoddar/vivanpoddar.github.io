@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Travel — Vivan Poddar</title>
-    <meta name="description" content="When Vivan is free to travel this semester, and a form to request dates." />
+    <meta name="description" content="When Vivan is free to travel this semester. Pick a window and book a trip." />
     <meta name="robots" content="noindex" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,7 +14,8 @@
     />
     <link rel="stylesheet" href="style.css" />
     <style>
-      /* Travel page: a booktabs-style table of free windows, then a request form. */
+      /* Travel page: a booktabs-style table of free windows, then a booking form. */
+      [hidden] { display: none !important; }
       .intro { font-size: 18px; line-height: 1.75; }
       .intro p + p { margin-top: 1rem; }
       .note { color: var(--ink-faint); font-style: italic; font-size: 0.85em; }
@@ -112,17 +113,20 @@
 
       .error { color: var(--accent); font-style: italic; font-size: 0.95em; min-height: 1.5em; }
       .status { color: var(--ink-muted); font-size: 0.95em; }
-      .fallback { display: grid; gap: 0.4rem; font-size: 16px; }
-      .fallback pre {
-        margin: 0;
-        padding: 0.75rem 0.9rem;
-        white-space: pre-wrap;
-        word-break: break-word;
-        font-family: inherit;
-        font-variant-numeric: lining-nums;
+      .btn[disabled] { opacity: 0.55; cursor: progress; }
+      .booked { display: block; color: var(--accent); font-size: 0.85em; font-style: italic; white-space: normal; }
+      table.windows tr.full td { color: var(--ink-faint); }
+      .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+      .done {
+        padding: 1rem 1.2rem;
         background: var(--accent-tint);
         border-left: 2px solid var(--accent);
+        font-size: 17px;
+        display: grid;
+        gap: 0.5rem;
       }
+      .done h3 { margin: 0; font-size: 1.05em; }
+      .done p { margin: 0; }
     </style>
   </head>
   <body>
@@ -146,9 +150,10 @@
           <p>
             These are the stretches this semester when I can be away from Berkeley. Each one ends
             with the time I need to be back for an in-person quiz or exam. Pick a window, choose when
-            I'd leave and when I'd be back, and send me the request. I'll confirm by email.
+            I'd leave and when I'd be back, and book it. Times someone has already booked are marked,
+            so you won't double up with anyone.
           </p>
-          <p class="note">All times are Pacific. Past windows drop off automatically.</p>
+          <p class="note">All times are Pacific. Past windows drop off automatically. Your email and phone number go only to me.</p>
         </div>
 
         <section aria-labelledby="windows-h">
@@ -158,13 +163,13 @@
               <thead>
                 <tr><th>Free from</th><th>Back in Berkeley by</th><th>Length</th><th></th></tr>
               </thead>
-              <tbody id="rows"></tbody>
+              <tbody id="rows"><tr><td colspan="4">Loading windows…</td></tr></tbody>
             </table>
           </div>
         </section>
 
         <section aria-labelledby="request-h">
-          <h2 class="latex-section" id="request-h">Request dates</h2>
+          <h2 class="latex-section" id="request-h">Book a trip</h2>
           <p class="chosen" id="chosen">Choose a window above to start.</p>
           <form class="request" id="form" novalidate>
             <div class="row2">
@@ -182,28 +187,42 @@
             <div class="row2">
               <div class="field">
                 <label for="name">Your name</label>
-                <input type="text" id="name" autocomplete="name" required />
+                <input type="text" id="name" autocomplete="name" maxlength="80" required />
               </div>
               <div class="field">
                 <label for="where">Where to</label>
-                <input type="text" id="where" placeholder="Pittsburgh, a conference, a weekend trip…" />
+                <input type="text" id="where" maxlength="120" placeholder="Pittsburgh, a conference, a weekend trip…" />
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" autocomplete="email" maxlength="120" required />
+              </div>
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" autocomplete="tel" maxlength="40" placeholder="(412) 555-0134" required />
               </div>
             </div>
             <div class="field">
               <label for="msg">Anything else</label>
-              <textarea id="msg" placeholder="Plans, who's going, flights you're looking at"></textarea>
+              <textarea id="msg" maxlength="1000" placeholder="Plans, who's going, flights you're looking at"></textarea>
+            </div>
+            <div class="trap" aria-hidden="true">
+              <label for="website">Website</label>
+              <input type="text" id="website" tabindex="-1" autocomplete="off" />
             </div>
             <p class="error" id="error" role="alert"></p>
             <div class="actions">
-              <button class="btn" type="submit">Email the request</button>
-              <button class="btn secondary" type="button" id="copy">Copy request</button>
+              <button class="btn" type="submit" id="submit">Book these dates</button>
               <span class="status" id="status" aria-live="polite"></span>
             </div>
-            <div class="fallback" id="fallback" hidden>
-              <span>If your email app didn't open, send this to <strong id="addr"></strong>:</span>
-              <pre id="preview"></pre>
-            </div>
           </form>
+          <div class="done" id="done" hidden>
+            <h3>You're booked.</h3>
+            <p id="done-text"></p>
+            <p><button class="pick" type="button" id="again">Book another trip</button></p>
+          </div>
         </section>
 
         <footer class="more">
@@ -213,27 +232,6 @@
     </main>
 
     <script>
-      // Email that requests go to.
-      const TO = "vivanpoddar@berkeley.edu";
-
-      // Free windows, as Pacific local times. "end" is when I need to be back.
-      const WINDOWS = [
-        { start: "2026-10-15T09:00", end: "2026-10-19T12:00" },
-        { start: "2026-10-19T14:00", end: "2026-10-21T14:00" },
-        { start: "2026-10-21T16:00", end: "2026-10-27T18:00" },
-        { start: "2026-10-29T15:30", end: "2026-11-04T07:00" },
-        { start: "2026-11-04T09:00", end: "2026-11-09T12:00" },
-        { start: "2026-11-09T14:00", end: "2026-11-13T14:00" },
-        { start: "2026-11-13T16:00", end: "2026-11-16T12:00" },
-        { start: "2026-11-16T14:00", end: "2026-11-18T14:00" },
-        { start: "2026-11-18T16:00", end: "2026-11-23T12:00" },
-        { start: "2026-11-23T14:00", end: "2026-11-30T12:00", label: "Thanksgiving" },
-        { start: "2026-11-30T14:00", end: "2026-12-02T14:00" },
-        { start: "2026-12-02T16:00", end: "2026-12-14T17:00", label: "RRR week" },
-        { start: "2026-12-15T11:00", end: "2026-12-18T09:30", label: "Finals week" },
-        { start: "2026-12-18T15:00", end: "2026-12-31T23:59", label: "Winter break", open: true },
-      ];
-
       // Pacific offset for a local PT string (DST ends Nov 1, 2026 at 2am).
       const ptOffset = (s) => (s < "2026-11-01T02:00" ? "-07:00" : "-08:00");
       const toDate = (s) => new Date(s + ":00" + ptOffset(s));
@@ -261,39 +259,43 @@
         return `${Math.floor(h / 24)} days`;
       }
 
-      const rows = document.getElementById("rows");
-      const form = document.getElementById("form");
-      const leave = document.getElementById("leave");
-      const back = document.getElementById("back");
-      const err = document.getElementById("error");
-      const statusEl = document.getElementById("status");
-      const fallback = document.getElementById("fallback");
-      document.getElementById("addr").textContent = TO;
+      const $ = (id) => document.getElementById(id);
+      const rows = $("rows"), form = $("form"), leave = $("leave"), back = $("back");
+      const err = $("error"), statusEl = $("status"), submitBtn = $("submit");
 
+      let visible = [];
+      let booked = [];
       let selected = null;
-      const now = nowPT();
-      // A window still in progress starts now; finished ones are hidden.
-      const visible = WINDOWS.filter((w) => w.end > now).map((w) => ({ ...w, start: w.start < now ? now : w.start }));
+      let bookingOn = true;
+
+      const overlaps = (a1, a2, b1, b2) => a1 < b2 && b1 < a2;
+      const bookedIn = (w) => booked.filter((b) => overlaps(b.leave, b.back, w.start, w.end));
+
+      function cell(html) {
+        const td = document.createElement("td");
+        td.innerHTML = html;
+        return td;
+      }
 
       function renderRows() {
         rows.textContent = "";
         if (!visible.length) {
-          const tr = document.createElement("tr");
-          const td = document.createElement("td");
-          td.colSpan = 4;
-          td.textContent = "No windows left this semester.";
-          tr.append(td);
-          rows.append(tr);
+          rows.innerHTML = `<tr><td colspan="4">No windows left this semester.</td></tr>`;
           return;
         }
         visible.forEach((w, i) => {
           const tr = document.createElement("tr");
           if (selected === i) tr.className = "selected";
-          const from = document.createElement("td");
-          from.innerHTML = `${day(w.start)} <span class="time">${time(w.start)}</span>`;
-          const to = document.createElement("td");
-          to.innerHTML = w.open ? `<span class="time">Semester's over</span>` : `${day(w.end)} <span class="time">${time(w.end)}</span>`;
-          const len = document.createElement("td");
+          const taken = bookedIn(w);
+          const from = cell(`${day(w.start)} <span class="time">${time(w.start)}</span>`);
+          if (taken.length) {
+            const span = document.createElement("span");
+            span.className = "booked";
+            span.textContent = "Booked " + taken.map((b) => `${when(b.leave)} – ${when(b.back)}`).join("; ");
+            from.append(span);
+          }
+          const to = cell(w.open ? `<span class="time">Semester's over</span>` : `${day(w.end)} <span class="time">${time(w.end)}</span>`);
+          const len = cell("");
           len.className = "len";
           len.textContent = w.open ? (w.label || "") : length(w.start, w.end) + (w.label ? ` · ${w.label}` : "");
           const act = document.createElement("td");
@@ -312,19 +314,24 @@
       function choose(i) {
         selected = i;
         const w = visible[i];
+        $("done").hidden = true;
+        form.hidden = false;
         leave.disabled = back.disabled = false;
         leave.min = back.min = w.start;
-        leave.max = back.max = w.end;
+        leave.max = w.end;
+        back.max = w.open ? "" : w.end;
         if (!leave.value || leave.value < w.start || leave.value > w.end) leave.value = w.start;
-        if (!back.value || back.value < w.start || back.value > w.end) back.value = w.open ? "" : w.end;
-        document.getElementById("leave-hint").textContent = `Earliest ${when(w.start)}`;
-        document.getElementById("back-hint").textContent = w.open ? "Any time after the semester" : `Latest ${when(w.end)}`;
-        document.getElementById("chosen").innerHTML = w.open
+        if (!back.value || back.value < w.start || (!w.open && back.value > w.end)) back.value = w.open ? "" : w.end;
+        $("leave-hint").textContent = `Earliest ${when(w.start)}`;
+        $("back-hint").textContent = w.open ? "Any time after the semester" : `Latest ${when(w.end)}`;
+        const taken = bookedIn(w);
+        $("chosen").innerHTML = (w.open
           ? `Window: <strong>${when(w.start)}</strong> onward.`
-          : `Window: <strong>${when(w.start)}</strong> to <strong>${when(w.end)}</strong>.`;
+          : `Window: <strong>${when(w.start)}</strong> to <strong>${when(w.end)}</strong>.`)
+          + (taken.length ? " Part of it is already booked, so pick times around that." : "");
         err.textContent = "";
         renderRows();
-        document.getElementById("request-h").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+        $("request-h").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
       }
 
       function validate() {
@@ -335,62 +342,95 @@
         if (leave.value < w.start) return `I can't leave before ${when(w.start)}.`;
         if (!w.open && back.value > w.end) return `I need to be back by ${when(w.end)}.`;
         if (back.value <= leave.value) return "The return has to be after the departure.";
-        if (!document.getElementById("name").value.trim()) return "Add your name so I know who's asking.";
+        const clash = booked.find((b) => overlaps(leave.value, back.value, b.leave, b.back));
+        if (clash) return `${when(clash.leave)} – ${when(clash.back)} is already booked. Pick times around it.`;
+        if (!$("name").value.trim()) return "Add your name.";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($("email").value.trim())) return "Add an email address that works.";
+        if ($("phone").value.replace(/\D/g, "").length < 7) return "Add a phone number with the area code.";
         return "";
       }
 
-      function compose() {
-        const name = document.getElementById("name").value.trim();
-        const where = document.getElementById("where").value.trim();
-        const msg = document.getElementById("msg").value.trim();
-        const subject = `Travel request: ${day(leave.value)} – ${day(back.value)}${where ? ` (${where})` : ""}`;
-        const lines = [
-          "Hi Vivan,",
-          "",
-          `I'd like to plan a trip with you${where ? ` to ${where}` : ""}.`,
-          "",
-          `Leave: ${when(leave.value)} PT`,
-          `Back in Berkeley: ${when(back.value)} PT`,
-        ];
-        if (msg) lines.push("", msg);
-        lines.push("", name);
-        return { subject, body: lines.join("\n") };
+      async function loadBooked() {
+        try {
+          const r = await fetch("/api/travel", { cache: "no-store" });
+          const data = await r.json();
+          if (!r.ok) {
+            bookingOn = false;
+            statusEl.textContent = data.error || "Booking isn't available right now.";
+            submitBtn.disabled = true;
+            return;
+          }
+          booked = data.booked || [];
+        } catch {
+          bookingOn = false;
+          statusEl.textContent = "Booking isn't available right now. Check back soon.";
+          submitBtn.disabled = true;
+        }
       }
 
-      form.addEventListener("submit", (e) => {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault();
+        if (!bookingOn) return;
         const problem = validate();
         err.textContent = problem;
         if (problem) return;
-        const { subject, body } = compose();
-        document.getElementById("preview").textContent = `Subject: ${subject}\n\n${body}`;
-        fallback.hidden = false;
-        statusEl.textContent = "Opening your email app…";
-        window.location.href = `mailto:${TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      });
-
-      document.getElementById("copy").addEventListener("click", async () => {
-        const problem = validate();
-        err.textContent = problem;
-        if (problem) return;
-        const { subject, body } = compose();
-        const text = `To: ${TO}\nSubject: ${subject}\n\n${body}`;
-        document.getElementById("preview").textContent = `Subject: ${subject}\n\n${body}`;
-        fallback.hidden = false;
+        submitBtn.disabled = true;
+        statusEl.textContent = "Booking…";
         try {
-          await navigator.clipboard.writeText(text);
-          statusEl.textContent = `Copied. Send it to ${TO}.`;
+          const r = await fetch("/api/travel", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              leave: leave.value, back: back.value,
+              name: $("name").value, email: $("email").value, phone: $("phone").value,
+              where: $("where").value, note: $("msg").value, website: $("website").value,
+            }),
+          });
+          const data = await r.json().catch(() => ({}));
+          if (!r.ok) {
+            err.textContent = data.error || "That didn't go through. Try again in a minute.";
+            statusEl.textContent = "";
+            if (r.status === 409) { await loadBooked(); renderRows(); }
+            return;
+          }
+          booked.push({ leave: leave.value, back: back.value });
+          $("done-text").textContent = `You're down for ${when(leave.value)} to ${when(back.value)} (Pacific). I'll reach out at ${$("email").value.trim()} or ${$("phone").value.trim()} to sort out the details.`;
+          form.hidden = true;
+          $("done").hidden = false;
+          statusEl.textContent = "";
+          ["msg", "where"].forEach((id) => ($(id).value = ""));
+          leave.value = back.value = "";
+          selected = null;
+          renderRows();
         } catch {
-          const range = document.createRange();
-          range.selectNodeContents(document.getElementById("preview"));
-          const sel = getSelection();
-          sel.removeAllRanges();
-          sel.addRange(range);
-          statusEl.textContent = "Copy didn't work here. The text is selected below.";
+          err.textContent = "That didn't go through. Check your connection and try again.";
+          statusEl.textContent = "";
+        } finally {
+          submitBtn.disabled = !bookingOn;
         }
       });
 
-      renderRows();
+      $("again").addEventListener("click", () => {
+        $("done").hidden = true;
+        form.hidden = false;
+        $("chosen").textContent = "Choose a window above to start.";
+        leave.disabled = back.disabled = true;
+        $("windows-h").scrollIntoView({ block: "start" });
+      });
+
+      (async function init() {
+        try {
+          const r = await fetch("/travel-windows.json", { cache: "no-store" });
+          const { windows } = await r.json();
+          const now = nowPT();
+          visible = windows.filter((w) => w.end > now).map((w) => ({ ...w, start: w.start < now ? now : w.start }));
+        } catch {
+          rows.innerHTML = `<tr><td colspan="4">Couldn't load the windows. Refresh to try again.</td></tr>`;
+          return;
+        }
+        await loadBooked();
+        renderRows();
+      })();
     </script>
   </body>
 </html>

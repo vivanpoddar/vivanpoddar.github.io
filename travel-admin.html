@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel bookings — Vivan Poddar</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      [hidden] { display: none !important; }
+      form.key { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: end; font-size: 17px; }
+      form.key input {
+        font: inherit; color: var(--ink); background: transparent; border: 0;
+        border-bottom: 1px solid var(--rule); padding: 0.3rem 0.1rem; min-width: 0; flex: 1 1 14rem;
+      }
+      .btn, .link-btn { font: inherit; cursor: pointer; }
+      .btn { font-size: 17px; padding: 0.4rem 1rem; border: 1px solid var(--accent); background: var(--accent); color: var(--paper-bg); }
+      .link-btn { background: none; border: 0; border-bottom: 1px solid var(--accent); color: var(--accent); padding: 0; font-size: 0.9em; }
+      .btn:focus-visible, .link-btn:focus-visible, form.key input:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      .msg { color: var(--accent); font-style: italic; min-height: 1.5em; margin-top: 0.75rem; }
+      .list { display: grid; gap: 0; margin-top: 0.5rem; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+      .item { padding: 0.9rem 0.2rem; border-bottom: 1px solid var(--rule); display: grid; gap: 0.25rem; font-size: 17px; font-variant-numeric: lining-nums; }
+      .item:last-child { border-bottom: 0; }
+      .item .dates { font-weight: 700; }
+      .item .who { color: var(--ink-muted); word-break: break-word; }
+      .item .extra { color: var(--ink-muted); font-style: italic; white-space: pre-wrap; }
+      .item.past { opacity: 0.6; }
+      .empty { padding: 0.9rem 0.2rem; font-style: italic; color: var(--ink-faint); }
+      .confirm { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <article class="page">
+        <div class="masthead">
+          <h1>Travel bookings</h1>
+          <p class="affiliation"><em>Who booked which dates on <a class="latex-link" href="/travel">/travel</a></em></p>
+        </div>
+
+        <form class="key" id="keyform">
+          <div style="display:grid;gap:0.3rem;flex:1 1 14rem;min-width:0">
+            <label for="key" style="font-weight:700;font-size:0.85em">Admin key</label>
+            <input type="password" id="key" autocomplete="current-password" />
+          </div>
+          <button class="btn" type="submit">Show bookings</button>
+        </form>
+        <p class="msg" id="msg" role="alert"></p>
+
+        <section id="out" hidden>
+          <h2 class="latex-section">Bookings</h2>
+          <div class="list" id="list"></div>
+        </section>
+      </article>
+    </main>
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const ptOffset = (s) => (s < "2026-11-01T02:00" ? "-07:00" : "-08:00");
+      const toDate = (s) => new Date(s + ":00" + ptOffset(s));
+      const fmt = new Intl.DateTimeFormat("en-US", { timeZone: "America/Los_Angeles", weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+      const when = (s) => fmt.format(toDate(s));
+
+      let key = "";
+      try { key = localStorage.getItem("travel-admin-key") || ""; } catch {}
+      $("key").value = key;
+
+      async function load() {
+        $("msg").textContent = "Loading…";
+        try {
+          const r = await fetch("/api/travel?all=1", { headers: { "x-admin-key": key }, cache: "no-store" });
+          const data = await r.json().catch(() => ({}));
+          if (!r.ok) { $("msg").textContent = data.error || "Couldn't load bookings."; $("out").hidden = true; return; }
+          try { localStorage.setItem("travel-admin-key", key); } catch {}
+          $("msg").textContent = "";
+          render(data.bookings || []);
+        } catch {
+          $("msg").textContent = "Couldn't reach the server. Try again.";
+        }
+      }
+
+      function render(bookings) {
+        const list = $("list");
+        list.textContent = "";
+        $("out").hidden = false;
+        if (!bookings.length) {
+          const p = document.createElement("p");
+          p.className = "empty";
+          p.textContent = "No bookings yet.";
+          list.append(p);
+          return;
+        }
+        const now = new Date();
+        for (const b of bookings) {
+          const div = document.createElement("div");
+          div.className = "item" + (toDate(b.back) < now ? " past" : "");
+          const dates = document.createElement("div");
+          dates.className = "dates";
+          dates.textContent = `${when(b.leave)} → ${when(b.back)}`;
+          const who = document.createElement("div");
+          who.className = "who";
+          who.textContent = [b.name, b.email, b.phone].filter(Boolean).join(" · ");
+          div.append(dates, who);
+          const extraText = [b.where && `Where: ${b.where}`, b.note].filter(Boolean).join("\n");
+          if (extraText) {
+            const extra = document.createElement("div");
+            extra.className = "extra";
+            extra.textContent = extraText;
+            div.append(extra);
+          }
+          const row = document.createElement("div");
+          row.className = "confirm";
+          const cancel = document.createElement("button");
+          cancel.className = "link-btn";
+          cancel.type = "button";
+          cancel.textContent = "Cancel booking";
+          cancel.addEventListener("click", () => {
+            row.textContent = "";
+            const q = document.createElement("span");
+            q.textContent = "Free up these dates?";
+            const yes = document.createElement("button");
+            yes.className = "link-btn"; yes.type = "button"; yes.textContent = "Yes, cancel it";
+            yes.addEventListener("click", async () => {
+              const r = await fetch("/api/travel", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "x-admin-key": key },
+                body: JSON.stringify({ action: "cancel", id: b.id }),
+              });
+              if (r.ok) load(); else $("msg").textContent = "Couldn't cancel that. Try again.";
+            });
+            const no = document.createElement("button");
+            no.className = "link-btn"; no.type = "button"; no.textContent = "Keep it";
+            no.addEventListener("click", () => render(bookings));
+            row.append(q, yes, no);
+          });
+          row.append(cancel);
+          div.append(row);
+          list.append(div);
+        }
+      }
+
+      $("keyform").addEventListener("submit", (e) => {
+        e.preventDefault();
+        key = $("key").value.trim();
+        if (!key) { $("msg").textContent = "Enter your admin key."; return; }
+        load();
+      });
+
+      if (key) load();
+    </script>
+  </body>
+</html>
