@@ -225,3 +225,40 @@ h1 {
     font-size: 17px;
   }
 }
+
+/* Homepage under construction: blur the content and float a notice over it. */
+.wip-blur {
+  filter: blur(7px);
+  user-select: none;
+  pointer-events: none;
+}
+
+.wip-note {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  gap: 0.4rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.wip-title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px double var(--rule);
+}
+
+.wip-sub {
+  color: var(--ink-muted);
+  font-style: italic;
+  font-size: 0.95em;
+}
+
+@media (min-width: 768px) {
+  .wip-title { font-size: 2.75rem; }
+}
