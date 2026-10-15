@@ -1,22 +1,25 @@
+/* Palette: #333d6d navy, #723ec3 purple, #ffcf95 peach, #fff0d9 cream (colorhunt.co). */
 :root {
-  --paper-bg: #f8f6f1;
-  --ink: #1c1c1c;
-  --ink-muted: #3d3d3d;
-  --rule: #c4c0b8;
-  --accent: #6b2f2a;
-  --accent-tint: rgba(107, 47, 42, 0.07);
-  --ink-faint: #7a756c;
+  --paper-bg: #fff0d9;
+  --ink: #333d6d;
+  --ink-muted: #4c5584;
+  --ink-faint: #5f6388;
+  --rule: #e0c9a6;
+  --accent: #723ec3;
+  --accent-line: rgba(114, 62, 195, 0.45);
+  --accent-tint: rgba(255, 207, 149, 0.55);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper-bg: #171614;
-    --ink: #e8e3d8;
-    --ink-muted: #b9b2a5;
-    --rule: #3d3a35;
-    --accent: #d08a80;
-    --accent-tint: rgba(208, 138, 128, 0.12);
-    --ink-faint: #85806f;
+    --paper-bg: #333d6d;
+    --ink: #fff0d9;
+    --ink-muted: #e3d6c4;
+    --ink-faint: #b9b3c4;
+    --rule: #525c90;
+    --accent: #ffcf95;
+    --accent-line: rgba(255, 207, 149, 0.5);
+    --accent-tint: rgba(114, 62, 195, 0.4);
   }
 }
 
@@ -139,7 +142,7 @@ h1 {
 
 .latex-link {
   color: var(--accent);
-  border-bottom: 1px solid rgba(107, 47, 42, 0.45);
+  border-bottom: 1px solid var(--accent-line);
   text-decoration: none;
   transition: background-color 120ms ease, border-color 120ms ease;
 }
