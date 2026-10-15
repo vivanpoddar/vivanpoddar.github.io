@@ -1,26 +1,14 @@
-/* Palette: #e8f5e9 mint, #a5d6a7 sage, #66bb6a green, #1b5e20 forest (colorhunt.co). */
+/* Palette: #e8f5e9 mint, #a5d6a7 sage, #66bb6a green, #1b5e20 forest (colorhunt.co). Light mode only. */
 :root {
+  color-scheme: light;
   --paper-bg: #e8f5e9;
-  --ink: #133a17;
-  --ink-muted: #2f5f33;
-  --ink-faint: #44734a;
+  --ink: #0c2a10;
+  --ink-muted: #1f4a24;
+  --ink-faint: #355f39;
   --rule: #a5d6a7;
   --accent: #1b5e20;
   --accent-line: #66bb6a;
   --accent-tint: rgba(165, 214, 167, 0.6);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper-bg: #1b5e20;
-    --ink: #e8f5e9;
-    --ink-muted: #c8e6c9;
-    --ink-faint: #b2d8b4;
-    --rule: #3e8143;
-    --accent: #a5d6a7;
-    --accent-line: rgba(165, 214, 167, 0.55);
-    --accent-tint: rgba(102, 187, 106, 0.3);
-  }
 }
 
 /* faint paper grain */
