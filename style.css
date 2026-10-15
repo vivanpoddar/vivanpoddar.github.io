@@ -1,25 +1,25 @@
-/* Palette: #333d6d navy, #723ec3 purple, #ffcf95 peach, #fff0d9 cream (colorhunt.co). */
+/* Palette: #e8f5e9 mint, #a5d6a7 sage, #66bb6a green, #1b5e20 forest (colorhunt.co). */
 :root {
-  --paper-bg: #fff0d9;
-  --ink: #333d6d;
-  --ink-muted: #4c5584;
-  --ink-faint: #5f6388;
-  --rule: #e0c9a6;
-  --accent: #723ec3;
-  --accent-line: rgba(114, 62, 195, 0.45);
-  --accent-tint: rgba(255, 207, 149, 0.55);
+  --paper-bg: #e8f5e9;
+  --ink: #133a17;
+  --ink-muted: #2f5f33;
+  --ink-faint: #44734a;
+  --rule: #a5d6a7;
+  --accent: #1b5e20;
+  --accent-line: #66bb6a;
+  --accent-tint: rgba(165, 214, 167, 0.6);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper-bg: #333d6d;
-    --ink: #fff0d9;
-    --ink-muted: #e3d6c4;
-    --ink-faint: #b9b3c4;
-    --rule: #525c90;
-    --accent: #ffcf95;
-    --accent-line: rgba(255, 207, 149, 0.5);
-    --accent-tint: rgba(114, 62, 195, 0.4);
+    --paper-bg: #1b5e20;
+    --ink: #e8f5e9;
+    --ink-muted: #c8e6c9;
+    --ink-faint: #b2d8b4;
+    --rule: #3e8143;
+    --accent: #a5d6a7;
+    --accent-line: rgba(165, 214, 167, 0.55);
+    --accent-tint: rgba(102, 187, 106, 0.3);
   }
 }
 
