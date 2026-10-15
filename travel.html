@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel — Vivan Poddar</title>
+    <meta name="description" content="When Vivan is free to travel this semester, and a form to request dates." />
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Travel page: a booktabs-style table of free windows, then a request form. */
+      .intro { font-size: 18px; line-height: 1.75; }
+      .intro p + p { margin-top: 1rem; }
+      .note { color: var(--ink-faint); font-style: italic; font-size: 0.85em; }
+
+      .table-wrap { overflow-x: auto; margin-top: 0.75rem; }
+      table.windows {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 17px;
+        font-variant-numeric: lining-nums tabular-nums;
+        border-top: 2px solid var(--ink);
+        border-bottom: 2px solid var(--ink);
+      }
+      table.windows thead th {
+        text-align: left;
+        font-weight: 700;
+        font-size: 0.78em;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-muted);
+        padding: 0.5rem 0.6rem 0.4rem;
+        border-bottom: 1px solid var(--ink);
+        white-space: nowrap;
+      }
+      table.windows td {
+        padding: 0.5rem 0.6rem;
+        border-bottom: 1px solid var(--rule);
+        vertical-align: baseline;
+        white-space: nowrap;
+      }
+      table.windows tbody tr:last-child td { border-bottom: 0; }
+      table.windows td.len { color: var(--ink-muted); }
+      table.windows td.act { text-align: right; }
+      table.windows tr.selected td { background: var(--accent-tint); }
+      .time { color: var(--ink-muted); font-size: 0.9em; }
+      @media (max-width: 599px) {
+        table.windows { font-size: 15px; }
+        table.windows td, table.windows thead th { white-space: normal; padding-left: 0.35rem; padding-right: 0.35rem; }
+        table.windows .time { display: block; }
+      }
+
+      .pick {
+        font: inherit;
+        font-size: 0.95em;
+        color: var(--accent);
+        background: none;
+        border: 0;
+        border-bottom: 1px solid var(--accent);
+        padding: 0;
+        cursor: pointer;
+      }
+      .pick:hover { background: var(--accent-tint); }
+      .pick:focus-visible, .btn:focus-visible, input:focus-visible, textarea:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      form.request { display: grid; gap: 1.1rem; margin-top: 0.75rem; font-size: 17px; }
+      .row2 { display: grid; gap: 1.1rem; grid-template-columns: 1fr; }
+      @media (min-width: 600px) { .row2 { grid-template-columns: 1fr 1fr; } }
+      .field { display: grid; gap: 0.3rem; min-width: 0; }
+      .field label { font-weight: 700; font-size: 0.85em; letter-spacing: 0.04em; }
+      .field .hint { color: var(--ink-faint); font-size: 0.82em; font-style: italic; }
+      input, textarea {
+        font: inherit;
+        font-variant-numeric: lining-nums;
+        color: var(--ink);
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid var(--rule);
+        padding: 0.3rem 0.1rem;
+        width: 100%;
+        min-width: 0;
+        border-radius: 0;
+      }
+      input:hover, textarea:hover { border-bottom-color: var(--ink-muted); }
+      textarea { resize: vertical; min-height: 4.5rem; }
+      @media (prefers-color-scheme: dark) { input, textarea { color-scheme: dark; } }
+
+      .chosen { font-size: 17px; }
+      .chosen strong { font-weight: 700; }
+
+      .actions { display: flex; flex-wrap: wrap; gap: 0.75rem 1.25rem; align-items: center; }
+      .btn {
+        font: inherit;
+        font-size: 17px;
+        cursor: pointer;
+        padding: 0.45rem 1.1rem;
+        border: 1px solid var(--accent);
+        background: var(--accent);
+        color: var(--paper-bg);
+      }
+      .btn.secondary { background: transparent; color: var(--accent); }
+      .btn:hover { filter: brightness(1.08); }
+
+      .error { color: var(--accent); font-style: italic; font-size: 0.95em; min-height: 1.5em; }
+      .status { color: var(--ink-muted); font-size: 0.95em; }
+      .fallback { display: grid; gap: 0.4rem; font-size: 16px; }
+      .fallback pre {
+        margin: 0;
+        padding: 0.75rem 0.9rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-family: inherit;
+        font-variant-numeric: lining-nums;
+        background: var(--accent-tint);
+        border-left: 2px solid var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <article class="page">
+        <header class="links">
+          <h2 class="latex-section">Links</h2>
+          <nav>
+            <a class="latex-link" href="/">Home</a>
+            <span class="sep">·</span>
+            <a class="latex-link" href="https://github.com/vivanpoddar" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </nav>
+        </header>
+
+        <div class="masthead">
+          <h1>When I'm free to travel</h1>
+          <p class="affiliation"><em>Fall 2026, around quizzes and exams at Berkeley</em></p>
+        </div>
+
+        <div class="intro">
+          <p>
+            These are the stretches this semester when I can be away from Berkeley. Each one ends
+            with the time I need to be back for an in-person quiz or exam. Pick a window, choose when
+            I'd leave and when I'd be back, and send me the request. I'll confirm by email.
+          </p>
+          <p class="note">All times are Pacific. Past windows drop off automatically.</p>
+        </div>
+
+        <section aria-labelledby="windows-h">
+          <h2 class="latex-section" id="windows-h">Open windows</h2>
+          <div class="table-wrap">
+            <table class="windows">
+              <thead>
+                <tr><th>Free from</th><th>Back in Berkeley by</th><th>Length</th><th></th></tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section aria-labelledby="request-h">
+          <h2 class="latex-section" id="request-h">Request dates</h2>
+          <p class="chosen" id="chosen">Choose a window above to start.</p>
+          <form class="request" id="form" novalidate>
+            <div class="row2">
+              <div class="field">
+                <label for="leave">I'd leave</label>
+                <input type="datetime-local" id="leave" required disabled />
+                <span class="hint" id="leave-hint"></span>
+              </div>
+              <div class="field">
+                <label for="back">I'd be back</label>
+                <input type="datetime-local" id="back" required disabled />
+                <span class="hint" id="back-hint"></span>
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="name">Your name</label>
+                <input type="text" id="name" autocomplete="name" required />
+              </div>
+              <div class="field">
+                <label for="where">Where to</label>
+                <input type="text" id="where" placeholder="Pittsburgh, a conference, a weekend trip…" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="msg">Anything else</label>
+              <textarea id="msg" placeholder="Plans, who's going, flights you're looking at"></textarea>
+            </div>
+            <p class="error" id="error" role="alert"></p>
+            <div class="actions">
+              <button class="btn" type="submit">Email the request</button>
+              <button class="btn secondary" type="button" id="copy">Copy request</button>
+              <span class="status" id="status" aria-live="polite"></span>
+            </div>
+            <div class="fallback" id="fallback" hidden>
+              <span>If your email app didn't open, send this to <strong id="addr"></strong>:</span>
+              <pre id="preview"></pre>
+            </div>
+          </form>
+        </section>
+
+        <footer class="more">
+          <p class="colophon">~ Last revised October 15, 2026.</p>
+        </footer>
+      </article>
+    </main>
+
+    <script>
+      // Email that requests go to.
+      const TO = "vivanpoddar@berkeley.edu";
+
+      // Free windows, as Pacific local times. "end" is when I need to be back.
+      const WINDOWS = [
+        { start: "2026-10-15T09:00", end: "2026-10-19T12:00" },
+        { start: "2026-10-19T14:00", end: "2026-10-21T14:00" },
+        { start: "2026-10-21T16:00", end: "2026-10-27T18:00" },
+        { start: "2026-10-29T15:30", end: "2026-11-04T07:00" },
+        { start: "2026-11-04T09:00", end: "2026-11-09T12:00" },
+        { start: "2026-11-09T14:00", end: "2026-11-13T14:00" },
+        { start: "2026-11-13T16:00", end: "2026-11-16T12:00" },
+        { start: "2026-11-16T14:00", end: "2026-11-18T14:00" },
+        { start: "2026-11-18T16:00", end: "2026-11-23T12:00" },
+        { start: "2026-11-23T14:00", end: "2026-11-30T12:00", label: "Thanksgiving" },
+        { start: "2026-11-30T14:00", end: "2026-12-02T14:00" },
+        { start: "2026-12-02T16:00", end: "2026-12-14T17:00", label: "RRR week" },
+        { start: "2026-12-15T11:00", end: "2026-12-18T09:30", label: "Finals week" },
+        { start: "2026-12-18T15:00", end: "2026-12-31T23:59", label: "Winter break", open: true },
+      ];
+
+      // Pacific offset for a local PT string (DST ends Nov 1, 2026 at 2am).
+      const ptOffset = (s) => (s < "2026-11-01T02:00" ? "-07:00" : "-08:00");
+      const toDate = (s) => new Date(s + ":00" + ptOffset(s));
+
+      // Current Pacific time as "YYYY-MM-DDTHH:MM".
+      function nowPT() {
+        const p = Object.fromEntries(
+          new Intl.DateTimeFormat("en-US", {
+            timeZone: "America/Los_Angeles", year: "numeric", month: "2-digit", day: "2-digit",
+            hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+          }).formatToParts(new Date()).map((x) => [x.type, x.value])
+        );
+        return `${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}`;
+      }
+
+      const dayFmt = new Intl.DateTimeFormat("en-US", { timeZone: "America/Los_Angeles", weekday: "short", month: "short", day: "numeric" });
+      const timeFmt = new Intl.DateTimeFormat("en-US", { timeZone: "America/Los_Angeles", hour: "numeric", minute: "2-digit" });
+      const day = (s) => dayFmt.format(toDate(s));
+      const time = (s) => timeFmt.format(toDate(s)).replace(":00", "").replace(" ", "").toLowerCase();
+      const when = (s) => `${day(s)}, ${time(s)}`;
+
+      function length(a, b) {
+        const h = (toDate(b) - toDate(a)) / 36e5;
+        if (h < 48) return `${Math.round(h)} hours`;
+        return `${Math.floor(h / 24)} days`;
+      }
+
+      const rows = document.getElementById("rows");
+      const form = document.getElementById("form");
+      const leave = document.getElementById("leave");
+      const back = document.getElementById("back");
+      const err = document.getElementById("error");
+      const statusEl = document.getElementById("status");
+      const fallback = document.getElementById("fallback");
+      document.getElementById("addr").textContent = TO;
+
+      let selected = null;
+      const now = nowPT();
+      // A window still in progress starts now; finished ones are hidden.
+      const visible = WINDOWS.filter((w) => w.end > now).map((w) => ({ ...w, start: w.start < now ? now : w.start }));
+
+      function renderRows() {
+        rows.textContent = "";
+        if (!visible.length) {
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 4;
+          td.textContent = "No windows left this semester.";
+          tr.append(td);
+          rows.append(tr);
+          return;
+        }
+        visible.forEach((w, i) => {
+          const tr = document.createElement("tr");
+          if (selected === i) tr.className = "selected";
+          const from = document.createElement("td");
+          from.innerHTML = `${day(w.start)} <span class="time">${time(w.start)}</span>`;
+          const to = document.createElement("td");
+          to.innerHTML = w.open ? `<span class="time">Semester's over</span>` : `${day(w.end)} <span class="time">${time(w.end)}</span>`;
+          const len = document.createElement("td");
+          len.className = "len";
+          len.textContent = w.open ? (w.label || "") : length(w.start, w.end) + (w.label ? ` · ${w.label}` : "");
+          const act = document.createElement("td");
+          act.className = "act";
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "pick";
+          b.textContent = selected === i ? "Selected" : "Choose";
+          b.addEventListener("click", () => choose(i));
+          act.append(b);
+          tr.append(from, to, len, act);
+          rows.append(tr);
+        });
+      }
+
+      function choose(i) {
+        selected = i;
+        const w = visible[i];
+        leave.disabled = back.disabled = false;
+        leave.min = back.min = w.start;
+        leave.max = back.max = w.end;
+        if (!leave.value || leave.value < w.start || leave.value > w.end) leave.value = w.start;
+        if (!back.value || back.value < w.start || back.value > w.end) back.value = w.open ? "" : w.end;
+        document.getElementById("leave-hint").textContent = `Earliest ${when(w.start)}`;
+        document.getElementById("back-hint").textContent = w.open ? "Any time after the semester" : `Latest ${when(w.end)}`;
+        document.getElementById("chosen").innerHTML = w.open
+          ? `Window: <strong>${when(w.start)}</strong> onward.`
+          : `Window: <strong>${when(w.start)}</strong> to <strong>${when(w.end)}</strong>.`;
+        err.textContent = "";
+        renderRows();
+        document.getElementById("request-h").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+      }
+
+      function validate() {
+        if (selected === null) return "Choose a window first.";
+        const w = visible[selected];
+        if (!leave.value) return "Add when I'd leave.";
+        if (!back.value) return "Add when I'd be back.";
+        if (leave.value < w.start) return `I can't leave before ${when(w.start)}.`;
+        if (!w.open && back.value > w.end) return `I need to be back by ${when(w.end)}.`;
+        if (back.value <= leave.value) return "The return has to be after the departure.";
+        if (!document.getElementById("name").value.trim()) return "Add your name so I know who's asking.";
+        return "";
+      }
+
+      function compose() {
+        const name = document.getElementById("name").value.trim();
+        const where = document.getElementById("where").value.trim();
+        const msg = document.getElementById("msg").value.trim();
+        const subject = `Travel request: ${day(leave.value)} – ${day(back.value)}${where ? ` (${where})` : ""}`;
+        const lines = [
+          "Hi Vivan,",
+          "",
+          `I'd like to plan a trip with you${where ? ` to ${where}` : ""}.`,
+          "",
+          `Leave: ${when(leave.value)} PT`,
+          `Back in Berkeley: ${when(back.value)} PT`,
+        ];
+        if (msg) lines.push("", msg);
+        lines.push("", name);
+        return { subject, body: lines.join("\n") };
+      }
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const problem = validate();
+        err.textContent = problem;
+        if (problem) return;
+        const { subject, body } = compose();
+        document.getElementById("preview").textContent = `Subject: ${subject}\n\n${body}`;
+        fallback.hidden = false;
+        statusEl.textContent = "Opening your email app…";
+        window.location.href = `mailto:${TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      });
+
+      document.getElementById("copy").addEventListener("click", async () => {
+        const problem = validate();
+        err.textContent = problem;
+        if (problem) return;
+        const { subject, body } = compose();
+        const text = `To: ${TO}\nSubject: ${subject}\n\n${body}`;
+        document.getElementById("preview").textContent = `Subject: ${subject}\n\n${body}`;
+        fallback.hidden = false;
+        try {
+          await navigator.clipboard.writeText(text);
+          statusEl.textContent = `Copied. Send it to ${TO}.`;
+        } catch {
+          const range = document.createRange();
+          range.selectNodeContents(document.getElementById("preview"));
+          const sel = getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          statusEl.textContent = "Copy didn't work here. The text is selected below.";
+        }
+      });
+
+      renderRows();
+    </script>
+  </body>
+</html>
